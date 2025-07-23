@@ -48,11 +48,22 @@ public class ProductService {
 	{
 		
 			
-		productList.removeIf(product -> product.getProductId() == productId);
-			
-
-		
-		
+		productList.removeIf(product -> product.getProductId() == productId);	
+	}
+	
+	public String updateProduct(ProductModel product)
+	{
+		int index=0;
+		for (int i=0; i<productList.size(); i++)
+		{
+			//calling the productconstructor here
+			if(productList.get(i).getProductId()==product.getProductId())
+			{
+				index=i;
+			}
+		}
+		productList.set(index, product);
+		return "The product has been updated successfully";
 	}
 	
 	
