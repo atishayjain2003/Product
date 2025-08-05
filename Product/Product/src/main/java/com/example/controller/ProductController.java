@@ -68,7 +68,10 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Locale;
 
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -81,15 +84,20 @@ import com.example.model.ProductModel;
 import com.example.service.ProductService;
 
 @RestController
-// @RequestMapping("/api/products") // Optional: Good practice to add a base path for all endpoints in this controller
+
+// Optional: Good practice to add a base path for all endpoints in this controller
 public class ProductController {
 
     private final ProductService productService;
+    private final MessageSource messageSource;
 
     // Constructor Injection
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, MessageSource messageSource) {
         this.productService = productService;
+        this.messageSource=messageSource;
     }
+    
+    
 
     // Endpoint for getting all products
     @GetMapping("/allproducts")
@@ -129,4 +137,12 @@ public class ProductController {
         ProductModel updatedProduct = productService.updateProduct(product);
         return updatedProduct; // Will be null if not found for update
     }
+    
+    @GetMapping("/hello")
+    public String helloWorld()
+    {
+    	Locale locale=LocaleContextHolder.getLocale();
+    	return messageSource.getMessage("greeting.message", null, "Default Message", locale);
+    }
+    
 }
